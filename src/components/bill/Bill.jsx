@@ -5,7 +5,7 @@ import { BillItem } from "./BillItem";
 
 
 
-export function Bill (  )  {
+export function Bill() {
 
     const [conta, setConta] = useState({
         tipo: "",
@@ -16,12 +16,12 @@ export function Bill (  )  {
     const [contas, setContas] = useState([])
     const [filtroTipo, setFiltroTipo] = useState("")
 
-    useEffect(()=>{
+    useEffect(() => {
         const contasSalvas = localStorage.getItem("contas")
-       if(contasSalvas){
-        setContas(JSON.parse(contasSalvas))
-       }
-    },[])
+        if (contasSalvas) {
+            setContas(JSON.parse(contasSalvas))
+        }
+    }, [])
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -37,7 +37,7 @@ export function Bill (  )  {
             alert("Preencha todos os campos")
             return
         }
-        const novasContas = [...contas, { ...conta, id: Date.now() }]
+        const novasContas = [...contas, { ...conta, id: Date.now(), status: "pendente" }]
         setContas(novasContas)
         localStorage.setItem("contas", JSON.stringify(novasContas))
         setConta({
@@ -59,6 +59,20 @@ export function Bill (  )  {
     const totalValor = contas.reduce((total, conta) => total + parseFloat(conta.valor), 0).toFixed(2)
     const contasAtrasadas = contas.filter((conta) => new Date(conta.vencimento) < new Date()).length
     const contasFiltradas = filtroTipo ? contas.filter((conta) => conta.tipo === filtroTipo) : contas
+
+    const contasProximas = contas.filter((c) => {
+        const vencimento = new Date(c.vencimento)
+        const diffDias = (vencimento - new Date() / (1000 * 60 * 60 * 24))
+        return diffDias <= 3 && diffDias > 0
+    })
+
+    {
+        contasProximas.length > 0 && (
+            <div className="alert">
+                <p>Atenção: {contasProximas.length} conta(s) vencendo em breve!</p>
+            </div>
+        )
+    }
 
     return (
         <div className="bill">
@@ -90,7 +104,7 @@ export function Bill (  )  {
 
             <div className="contas-lista">
                 <h2>Lista de contas</h2>
-                {contasFiltradas.map((conta, index) => ( <BillItem key={index} conta={conta} onUpdate={handleUpdate} onDelete={handleDelete} />))}
+                {contasFiltradas.map((conta, index) => (<BillItem key={index} conta={conta} onUpdate={handleUpdate} onDelete={handleDelete} />))}
             </div>
 
         </div>
