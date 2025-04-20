@@ -1,7 +1,8 @@
 import React from "react";
 import { useState } from "react";
 
-export function BillItem ({ conta, onDelete, onUpdate }) {
+
+export function BillItem({ conta, onDelete, onUpdate }) {
     const [isEditing, setIsEditing] = useState(false)
     const [editedConta, setEditedConta] = useState(conta)
 
@@ -49,13 +50,15 @@ export function BillItem ({ conta, onDelete, onUpdate }) {
                     <button onClick={() => setIsEditing(false)}>Cancelar</button>
                 </div>
             ) : (
-                <div>
+                <div className="bill-item-info">
                     <h3>{conta.tipo.toUpperCase()}</h3>
                     <p>Valor: R${parseFloat(conta.valor).toFixed(2)}</p>
                     <p>Vencimento: {conta.vencimento}</p>
                     {atrasada && <p style={{ color: "red" }}>Conta atrasada!</p>}
-                    <button onClick={() => setIsEditing(true)}>Editar</button>
-                    <button onClick={() => onDelete(conta)}>Excluir</button>
+                    <div className="bill-item-actions">
+                        <button onClick={() => setIsEditing(true)}>Editar</button>
+                        <button onClick={() => onDelete(conta)}>Excluir</button>
+                    </div>
                 </div>
             )}
 

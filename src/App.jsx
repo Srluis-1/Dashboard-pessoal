@@ -1,5 +1,6 @@
 import './App.css'
-import { Bill } from './components/bill/Bill'
+import React from 'react'
+import { Dashboard } from './pages/dashboard'
 import { SpeedInsights } from "@vercel/speed-insights/react"
 
 
@@ -7,7 +8,7 @@ function App() {
 
   return (
     <div>
-      <Bill/>
+      <Dashboard />
       <SpeedInsights />
     </div>
     

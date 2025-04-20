@@ -2,6 +2,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { BillForm } from "./BillForm";
 import { BillItem } from "./BillItem";
+import "./Bill.css"
+import "./BillItem.css"
 
 
 
@@ -75,16 +77,9 @@ export function Bill() {
     }
 
     return (
-        <div className="bill">
+        <div className="bill-container">
             <h1>Contas</h1>
-
-            <div className="resumo">
-                <h2>Resumo</h2>
-                <p>Total de Contas: {totalContas}</p>
-                <p>Valor Total: {totalValor}</p>
-                <p>Contas Atrasadas: {contasAtrasadas}</p>
-            </div>
-
+            
             <div className="filtro">
                 <label>
                     Filtrar por Tipo:
@@ -100,7 +95,19 @@ export function Bill() {
                     </select>
                 </label>
             </div>
-            <BillForm conta={conta} onChange={handleChange} onSubmit={handleSubmit} />
+
+            <div className="resumo">
+                <h2>Resumo</h2>
+                <p>Total de Contas: {totalContas}</p>
+                <p>Valor Total: {totalValor}</p>
+                <p>Contas Atrasadas: {contasAtrasadas}</p>
+            </div>
+
+           
+            <div className="form">
+                <BillForm conta={conta} onChange={handleChange} onSubmit={handleSubmit} />
+            </div>
+
 
             <div className="contas-lista">
                 <h2>Lista de contas</h2>

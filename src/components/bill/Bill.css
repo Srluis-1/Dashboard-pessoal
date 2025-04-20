@@ -1,0 +1,113 @@
+.bill-container{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 400px;
+    background:#D6D6D6;
+    gap: 10px;
+    border-radius: 15px;
+    align-self: flex-start;
+    margin-left: 10px;
+}
+.bill-container h1{
+    color: #858585;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.bill-container .filtro{
+    display: flex;
+    justify-content: center;
+}
+
+.filtro label{
+    color: #858585;
+    font-size: 1.3rem;
+    font-weight: 900;
+}
+
+.filtro select{
+    border: none;
+    margin-left: 5px;
+    height: 22px;
+    border-radius: 5px;
+    color: #858585;
+    font-weight: 900;
+}
+
+
+.bill-container .resumo{
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    background: aliceblue;
+    width: 280px;
+    border-radius: 10px;
+}
+
+.resumo h2{
+    color:#858585;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.resumo p{
+    color: #858585;
+    margin-left: 10px;
+}
+
+.form{
+    display: none;
+}
+
+.contas-lista{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 10px;
+    background: aliceblue;
+    width: 280px;
+    border-radius: 10px;
+}
+
+.contas-lista h2{
+    color:#858585;
+    justify-content: center;
+    display: flex;
+}
+
+.contas-lista .bill-item-info{
+    display: flex;
+    flex-direction: column;
+}
+
+.contas-lista .bill-item-info h3{
+    color: #858585;
+    margin-left: 10px;
+    font-size: 14px;
+}
+.contas-lista .bill-item-info p{
+    color: #858585;
+    margin-left: 10px;
+    font-size: 14px;
+}
+
+.bill-item-actions{
+    display: flex;
+    justify-content: center;  
+    gap: 10px;
+}
+
+.bill-item-actions button{
+    color: #ffffff;
+    border: none;
+    background-color:#BDBDC7;
+    width: 50px;
+    height: 20px;
+    border-radius: 6px;
+}
+
+
+

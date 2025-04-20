@@ -11,6 +11,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
     "@vercel/speed-insights": "^1.2.0",
     "axios": "^1.8.4",
     "chart.js": "^4.4.9",
