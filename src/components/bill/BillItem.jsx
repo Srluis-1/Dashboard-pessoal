@@ -14,6 +14,7 @@ export function BillItem({ conta, onDelete, onUpdate }) {
         })
     }
 
+   
 
     const handleSave = () => {
         if (!editedConta.tipo || !editedConta.valor || !editedConta.vencimento) {

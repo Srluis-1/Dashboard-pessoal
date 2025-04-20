@@ -3,9 +3,6 @@ import { useState, useEffect } from "react";
 import { BillForm } from "./BillForm";
 import { BillItem } from "./BillItem";
 import "./Bill.css"
-import "./BillItem.css"
-
-
 
 export function Bill() {
 
@@ -14,12 +11,14 @@ export function Bill() {
         valor: 0,
         vencimento: "",
     })
+    
+
 
     const [contas, setContas] = useState([])
     const [filtroTipo, setFiltroTipo] = useState("")
 
     useEffect(() => {
-        const contasSalvas = localStorage.getItem("contas")
+        const contasSalvas = localStorage.getItem("conta")
         if (contasSalvas) {
             setContas(JSON.parse(contasSalvas))
         }
