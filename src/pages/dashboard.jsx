@@ -1,6 +1,6 @@
 import React from "react";
 import { Bill } from "../components/bill/Bill";
-import "./Dashboard.css"
+import "../styles/dashboard.css"
 
 export const Dashboard = () => {
     return (
