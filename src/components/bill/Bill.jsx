@@ -12,8 +12,6 @@ export function Bill() {
         vencimento: "",
     })
     
-
-
     const [contas, setContas] = useState([])
     const [filtroTipo, setFiltroTipo] = useState("")
 
@@ -67,17 +65,19 @@ export function Bill() {
         return diffDias <= 3 && diffDias > 0
     })
 
-    {
+    
+
+    return (
+        
+        <div className="bill-container">
+            <h1>Contas</h1>
+            {
         contasProximas.length > 0 && (
             <div className="alert">
                 <p>Atenção: {contasProximas.length} conta(s) vencendo em breve!</p>
             </div>
         )
     }
-
-    return (
-        <div className="bill-container">
-            <h1>Contas</h1>
             
             <div className="filtro">
                 <label>
