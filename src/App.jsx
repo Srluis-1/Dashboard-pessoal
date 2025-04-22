@@ -1,6 +1,6 @@
 import './App.css'
 import React from 'react'
-import { Dashboard } from './pages/dashboard'
+import Dashboard from './pages/dashboard'
 import { SpeedInsights } from "@vercel/speed-insights/react"
 
 
@@ -11,9 +11,7 @@ function App() {
       <Dashboard />
       <SpeedInsights />
     </div>
-    
   )
-  
 }
 
 export default App

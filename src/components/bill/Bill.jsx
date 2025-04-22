@@ -1,118 +1,76 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import { BillForm } from "./BillForm";
+import React,{useContext} from "react";
+import { BillContext } from "../../context/Context"
 import { BillItem } from "./BillItem";
 import "./Bill.css"
 
 export function Bill() {
 
-    const [conta, setConta] = useState({
-        tipo: "",
-        valor: 0,
-        vencimento: "",
-    })
-    
-    const [contas, setContas] = useState([])
-    const [filtroTipo, setFiltroTipo] = useState("")
+  const { contas, filtroTipo, setFiltroTipo, handleUpdate, handleDelete } = useContext(BillContext);
 
-    useEffect(() => {
-        const contasSalvas = localStorage.getItem("conta")
-        if (contasSalvas) {
-            setContas(JSON.parse(contasSalvas))
-        }
-    }, [])
+  const totalContas = contas.length;
+  const totalValor = contas
+    .reduce((total, conta) => total + parseFloat(conta.valor || 0), 0)
+    .toFixed(2);
+  const contasAtrasadas = contas.filter(
+    (conta) => new Date(conta.vencimento) < new Date()
+  ).length;
+  const contasFiltradas = filtroTipo
+    ? contas.filter((conta) => conta.tipo === filtroTipo)
+    : contas;
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setConta({
-            ...conta, [name]: value
-        })
-    }
+  const contasProximas = contas.filter((c) => {
+    const vencimento = new Date(c.vencimento);
+    const diffDias = (vencimento - new Date()) / (1000 * 60 * 60 * 24);
+    return diffDias <= 3 && diffDias > 0;
+  });
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
+  return (
+    <div className="bill-container">
+      <h1>Contas</h1>
 
-        if (!conta.tipo || !conta.valor || !conta.vencimento) {
-            alert("Preencha todos os campos")
-            return
-        }
-        const novasContas = [...contas, { ...conta, id: Date.now(), status: "pendente" }]
-        setContas(novasContas)
-        localStorage.setItem("contas", JSON.stringify(novasContas))
-        setConta({
-            tipo: "",
-            valor: "",
-            vencimento: "",
-        })
-    }
-
-    const handleUpdate = (updateConta) => {
-        setContas(contas.map((conta) => (conta.id === updateConta.id ? updateConta : conta)))
-    }
-
-    const handleDelete = (contaDelete) => {
-        setContas(contas.filter((conta) => conta.id !== contaDelete.id))
-    }
-
-    const totalContas = contas.length
-    const totalValor = contas.reduce((total, conta) => total + parseFloat(conta.valor), 0).toFixed(2)
-    const contasAtrasadas = contas.filter((conta) => new Date(conta.vencimento) < new Date()).length
-    const contasFiltradas = filtroTipo ? contas.filter((conta) => conta.tipo === filtroTipo) : contas
-
-    const contasProximas = contas.filter((c) => {
-        const vencimento = new Date(c.vencimento)
-        const diffDias = (vencimento - new Date() / (1000 * 60 * 60 * 24))
-        return diffDias <= 3 && diffDias > 0
-    })
-
-    
-
-    return (
-        
-        <div className="bill-container">
-            <h1>Contas</h1>
-            {
-        contasProximas.length > 0 && (
-            <div className="alert">
-                <p>Atenção: {contasProximas.length} conta(s) vencendo em breve!</p>
-            </div>
-        )
-    }
-            
-            <div className="filtro">
-                <label>
-                    Filtrar por Tipo:
-                    <select value={filtroTipo} onChange={((e) => setFiltroTipo(e.target.value))}>
-                        <option value="">Todos</option>
-                        <option value="internet">Internet</option>
-                        <option value="carro">Carro</option>
-                        <option value="intcelu">Intecelu</option>
-                        <option value="farmacia">Farmácia</option>
-                        <option value="academia">Academia</option>
-                        <option value="cartao">Cartão</option>
-                        <option value="moto">Moto</option>
-                    </select>
-                </label>
-            </div>
-
-            <div className="resumo">
-                <h2>Resumo</h2>
-                <p>Total de Contas: {totalContas}</p>
-                <p>Valor Total: {totalValor}</p>
-                <p>Contas Atrasadas: {contasAtrasadas}</p>
-            </div>
-
-           
-            <div className="form">
-                <BillForm conta={conta} onChange={handleChange} onSubmit={handleSubmit} />
-            </div>
-
-
-            <div className="contas-lista">
-                <h2>Lista de contas</h2>
-                {contasFiltradas.map((conta, index) => (<BillItem key={index} conta={conta} onUpdate={handleUpdate} onDelete={handleDelete} />))}
-            </div>
-
+      {contasProximas.length > 0 && (
+        <div className="alert">
+          <p>Atenção: {contasProximas.length} conta(s) vencendo em breve!</p>
         </div>
-    )
+      )}
+
+      <div className="filtro">
+        <label>
+          Filtrar por Tipo:
+          <select
+            value={filtroTipo}
+            onChange={(e) => setFiltroTipo(e.target.value)}
+          >
+            <option value="">Todos</option>
+            <option value="internet">Internet</option>
+            <option value="carro">Carro</option>
+            <option value="intcelu">Intecelu</option>
+            <option value="farmacia">Farmácia</option>
+            <option value="academia">Academia</option>
+            <option value="cartao">Cartão</option>
+            <option value="moto">Moto</option>
+          </select>
+        </label>
+      </div>
+
+      <div className="resumo">
+        <h2>Resumo</h2>
+        <p>Total de Contas: {totalContas}</p>
+        <p>Valor Total: R${totalValor}</p>
+        <p>Contas Atrasadas: {contasAtrasadas}</p>
+      </div>
+
+      <div className="contas-lista">
+        <h2>Lista de contas</h2>
+        {contasFiltradas.map((conta) => (
+          <BillItem
+            key={conta.id}
+            conta={conta}
+            onUpdate={handleUpdate}
+            onDelete={handleDelete}
+          />
+        ))}
+      </div>
+    </div>
+  );
 }
