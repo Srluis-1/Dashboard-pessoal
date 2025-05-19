@@ -14,7 +14,9 @@ export function Header() {
 
   return (
     <div className="header">
-      <button onClick={toggleFormConta}>Add Conta</button>
+      <button className="buttonAdd" onClick={toggleFormConta}>
+        <div className="text">ADD CONTA</div>
+      </button>
       {mostrarForm && (
         <div className="modal-overlay">
           <div className="modal-content">
